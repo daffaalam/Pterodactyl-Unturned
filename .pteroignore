@@ -1,0 +1,18 @@
+# all hidden/dotted directories/files
+.*
+
+# steam directory
+[Ss]team/
+[Ss]teamapps/
+
+# all logs
+*.log
+*[._-]log[._-]*
+
+# archive files
+archive[._-]*
+*[._-]archive[._-]*
+
+# unignore pteroignore
+!.gitignore
+!.pteroignore

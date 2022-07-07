@@ -1,0 +1,92 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2022-07-08T03:00:00+07:00",
+    "name": "Unturned",
+    "author": "tech@daffa.dev",
+    "description": "You're a survivor in the zombie infested ruins of society, and must work with your friends and forge alliances to remain among the living.",
+    "features": null,
+    "docker_images": {
+        "Unturned": "daffaalam\/pterodactyl-unturned"
+    },
+    "file_denylist": [],
+    "startup": ".\/ServerHelper.sh -port {{SERVER_PORT}} -maxplayers {{MAX_PLAYERS}} +InternetServer\/Unturned",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Loading level: 100%\"\r\n}",
+        "logs": "{}",
+        "stop": "shutdown"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\nexport DEBIAN_FRONTEND=noninteractive\r\nexport HOME=\/mnt\/server\r\necho \"[INFO] Installing Dependencies...\"\r\napt-get update && apt-get install -y --no-install-recommends ca-certificates curl unzip lib32gcc-s1\r\nrm -rf $HOME\/Steam && mkdir -p $HOME\/Steam\r\ncurl -SL https:\/\/steamcdn-a.akamaihd.net\/client\/installer\/steamcmd_linux.tar.gz | tar zxf - -C $HOME\/Steam\r\necho \"[INFO] Installing Game...\"\r\n$HOME\/Steam\/steamcmd.sh +force_install_dir $HOME +login anonymous +app_update 1110390 +quit\r\nif [[ \"${ROCKET_MOD,,}\" == \"1\" ]]; then\r\necho \"[INFO] Installing RocketMod...\"\r\nrm -rf $HOME\/Modules\/Rocket.Unturned && cp -r $HOME\/Extras\/Rocket.Unturned\/ $HOME\/Modules\/\r\nfi\r\nif [[ \"${OPEN_MOD,,}\" == \"1\" ]]; then\r\necho \"[INFO] Installing OpenMod...\"\r\ncurl -SLo OpenMod.Unturned.zip https:\/\/github.com\/openmod\/openmod\/releases\/latest\/download\/OpenMod.Unturned.Module.zip\r\nunzip -q OpenMod.Unturned.zip -x Readme.txt -d $HOME\/Extras\/ && rm OpenMod.Unturned.zip\r\nrm -rf $HOME\/Modules\/OpenMod.Unturned && cp -r $HOME\/Extras\/OpenMod.Unturned\/ $HOME\/Modules\/\r\nfi\r\necho \"[INFO] Finished Installing...\"",
+            "container": "debian:stable-slim",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Game Auto Update",
+            "description": "Force update game on restart",
+            "env_variable": "AUTO_UPDATE",
+            "default_value": "0",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|boolean",
+            "field_type": "text"
+        },
+        {
+            "name": "Enabled RocketMod",
+            "description": "Enabled RocketMod Modules",
+            "env_variable": "ROCKET_MOD",
+            "default_value": "0",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|boolean",
+            "field_type": "text"
+        },
+        {
+            "name": "Enabled OpenMod",
+            "description": "Enabled OpenMod Modules",
+            "env_variable": "OPEN_MOD",
+            "default_value": "0",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|boolean",
+            "field_type": "text"
+        },
+        {
+            "name": "RocketMod Update",
+            "description": "Force update RocketMod on restart",
+            "env_variable": "ROCKETMOD_UPDATE",
+            "default_value": "0",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|boolean",
+            "field_type": "text"
+        },
+        {
+            "name": "OpenMod Update",
+            "description": "Force update OpenMod on restart",
+            "env_variable": "OPENMOD_UPDATE",
+            "default_value": "0",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|boolean",
+            "field_type": "text"
+        },
+        {
+            "name": "Max Players",
+            "description": "Max players allowed to play in the server",
+            "env_variable": "MAX_PLAYERS",
+            "default_value": "8",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|integer|between:4,32",
+            "field_type": "text"
+        }
+    ]
+}
