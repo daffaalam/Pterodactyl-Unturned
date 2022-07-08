@@ -4,11 +4,14 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2022-07-08T03:00:00+07:00",
+    "exported_at": "2022-07-08T17:10:50+07:00",
     "name": "Unturned",
     "author": "tech@daffa.dev",
     "description": "You're a survivor in the zombie infested ruins of society, and must work with your friends and forge alliances to remain among the living.",
-    "features": null,
+    "features": [
+        "steam_disk_space",
+        "gsl_token"
+    ],
     "docker_images": {
         "Unturned": "daffaalam\/pterodactyl-unturned"
     },
@@ -22,7 +25,7 @@
     },
     "scripts": {
         "installation": {
-            "script": "#!\/bin\/bash\r\nexport DEBIAN_FRONTEND=noninteractive\r\nexport HOME=\/mnt\/server\r\necho \"[INFO] Installing Dependencies...\"\r\napt-get update && apt-get install -y --no-install-recommends ca-certificates curl unzip lib32gcc-s1\r\nrm -rf $HOME\/Steam && mkdir -p $HOME\/Steam\r\ncurl -SL https:\/\/steamcdn-a.akamaihd.net\/client\/installer\/steamcmd_linux.tar.gz | tar zxf - -C $HOME\/Steam\r\necho \"[INFO] Installing Game...\"\r\n$HOME\/Steam\/steamcmd.sh +force_install_dir $HOME +login anonymous +app_update 1110390 +quit\r\nif [[ \"${ROCKET_MOD,,}\" == \"1\" ]]; then\r\necho \"[INFO] Installing RocketMod...\"\r\nrm -rf $HOME\/Modules\/Rocket.Unturned && cp -r $HOME\/Extras\/Rocket.Unturned\/ $HOME\/Modules\/\r\nfi\r\nif [[ \"${OPEN_MOD,,}\" == \"1\" ]]; then\r\necho \"[INFO] Installing OpenMod...\"\r\ncurl -SLo OpenMod.Unturned.zip https:\/\/github.com\/openmod\/openmod\/releases\/latest\/download\/OpenMod.Unturned.Module.zip\r\nunzip -q OpenMod.Unturned.zip -x Readme.txt -d $HOME\/Extras\/ && rm OpenMod.Unturned.zip\r\nrm -rf $HOME\/Modules\/OpenMod.Unturned && cp -r $HOME\/Extras\/OpenMod.Unturned\/ $HOME\/Modules\/\r\nfi\r\necho \"[INFO] Finished Installing...\"",
+            "script": "#!\/bin\/bash\r\nexport DEBIAN_FRONTEND=noninteractive\r\nexport HOME=\/mnt\/server\r\necho -e \"\\u001b[1m\\u001b[33m[INFO] [INSTALLER] Installing Dependencies...\\u001b[0m\"\r\napt-get update && apt-get install -y --no-install-recommends ca-certificates curl unzip lib32gcc-s1\r\nrm -rf $HOME\/Steam && mkdir -p $HOME\/Steam\r\ncurl -SL https:\/\/steamcdn-a.akamaihd.net\/client\/installer\/steamcmd_linux.tar.gz | tar zxf - -C $HOME\/Steam\r\necho -e \"\\u001b[1m\\u001b[33m[INFO] [INSTALLER] Installing Game...\\u001b[0m\"\r\n$HOME\/Steam\/steamcmd.sh +force_install_dir $HOME +login anonymous +app_update 1110390 +quit\r\nif [[ $ROCKET_MOD -eq 1 ]]; then\r\necho -e \"\\u001b[1m\\u001b[33m[INFO] [INSTALLER] Installing RocketMod...\\u001b[0m\"\r\nrm -rf $HOME\/Modules\/Rocket.Unturned\/ && cp -r $HOME\/Extras\/Rocket.Unturned\/ $HOME\/Modules\/\r\nfi\r\nif [[ $OPEN_MOD -eq 1 ]]; then\r\necho -e \"\\u001b[1m\\u001b[33m[INFO] [INSTALLER] Installing OpenMod...\\u001b[0m\"\r\ncurl -SLo OpenMod.Unturned.zip https:\/\/github.com\/openmod\/openmod\/releases\/latest\/download\/OpenMod.Unturned.Module.zip\r\nrm -rf $HOME\/Extras\/OpenMod.Unturned\/ && unzip -q OpenMod.Unturned.zip -x Readme.txt -d $HOME\/Extras\/ && rm OpenMod.Unturned.zip\r\nrm -rf $HOME\/Modules\/OpenMod.Unturned\/ && cp -r $HOME\/Extras\/OpenMod.Unturned\/ $HOME\/Modules\/\r\nfi\r\necho -e \"\\u001b[1m\\u001b[33m[INFO] [INSTALLER] Finished Installing...\\u001b[0m\"",
             "container": "debian:stable-slim",
             "entrypoint": "bash"
         }
@@ -30,29 +33,29 @@
     "variables": [
         {
             "name": "Game Auto Update",
-            "description": "Force update game on restart",
+            "description": "Force update game on restart.",
             "env_variable": "AUTO_UPDATE",
-            "default_value": "0",
+            "default_value": "1",
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|boolean",
             "field_type": "text"
         },
         {
-            "name": "Enabled RocketMod",
-            "description": "Enabled RocketMod Modules",
+            "name": "Enable RocketMod",
+            "description": "Enable RocketMod Modules.",
             "env_variable": "ROCKET_MOD",
-            "default_value": "0",
+            "default_value": "1",
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|boolean",
             "field_type": "text"
         },
         {
-            "name": "Enabled OpenMod",
-            "description": "Enabled OpenMod Modules",
+            "name": "Enable OpenMod",
+            "description": "Enable OpenMod Modules.",
             "env_variable": "OPEN_MOD",
-            "default_value": "0",
+            "default_value": "1",
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|boolean",
@@ -60,7 +63,7 @@
         },
         {
             "name": "RocketMod Update",
-            "description": "Force update RocketMod on restart",
+            "description": "Force update RocketMod on restart.\r\nAlso note that you have to enable RocketMod first.",
             "env_variable": "ROCKETMOD_UPDATE",
             "default_value": "0",
             "user_viewable": true,
@@ -70,7 +73,7 @@
         },
         {
             "name": "OpenMod Update",
-            "description": "Force update OpenMod on restart",
+            "description": "Force update OpenMod on restart.\r\nAlso note that you have to enable OpenMod first.",
             "env_variable": "OPENMOD_UPDATE",
             "default_value": "0",
             "user_viewable": true,
@@ -80,7 +83,7 @@
         },
         {
             "name": "Max Players",
-            "description": "Max players allowed to play in the server",
+            "description": "Max players allowed to play in the server.",
             "env_variable": "MAX_PLAYERS",
             "default_value": "8",
             "user_viewable": true,

@@ -9,6 +9,7 @@ RUN set -ex \
     curl \
     lib32stdc++6 \
     locales \
+    unzip \
     && rm -rf /var/lib/apt/lists/* \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
     && useradd -d ${HOME} -m ${USER}
@@ -17,4 +18,4 @@ USER ${USER}
 WORKDIR ${HOME}
 COPY ./.pteroignore /.pteroignore
 COPY ./entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/bin/bash", "/entrypoint.sh"]
