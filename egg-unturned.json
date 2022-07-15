@@ -4,7 +4,7 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2022-07-08T17:10:50+07:00",
+    "exported_at": "2022-07-15T21:00:00+07:00",
     "name": "Unturned",
     "author": "tech@daffa.dev",
     "description": "You're a survivor in the zombie infested ruins of society, and must work with your friends and forge alliances to remain among the living.",
@@ -13,7 +13,8 @@
         "gsl_token"
     ],
     "docker_images": {
-        "Unturned": "daffaalam\/pterodactyl-unturned"
+        "Unturned-Minimal": "daffaalam\/pterodactyl-unturned:minimal",
+        "Unturned-Imperial": "daffaalam\/pterodactyl-unturned:imperial"
     },
     "file_denylist": [],
     "startup": ".\/ServerHelper.sh -port {{SERVER_PORT}} -maxplayers {{MAX_PLAYERS}} +InternetServer\/Unturned",
@@ -35,7 +36,7 @@
             "name": "Game Auto Update",
             "description": "Force update game on restart.",
             "env_variable": "AUTO_UPDATE",
-            "default_value": "1",
+            "default_value": "0",
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|boolean",
@@ -45,7 +46,7 @@
             "name": "Enable RocketMod",
             "description": "Enable RocketMod Modules.",
             "env_variable": "ROCKET_MOD",
-            "default_value": "1",
+            "default_value": "0",
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|boolean",
@@ -55,7 +56,7 @@
             "name": "Enable OpenMod",
             "description": "Enable OpenMod Modules.",
             "env_variable": "OPEN_MOD",
-            "default_value": "1",
+            "default_value": "0",
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|boolean",

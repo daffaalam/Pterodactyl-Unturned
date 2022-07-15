@@ -7,13 +7,11 @@ RUN set -ex \
     && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
-    lib32stdc++6 \
-    locales \
+    lib32gcc-s1 \
+    libc6-dev \
     unzip \
     && rm -rf /var/lib/apt/lists/* \
-    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
     && useradd -d ${HOME} -m ${USER}
-ENV LANG en_US.utf8
 USER ${USER}
 WORKDIR ${HOME}
 COPY ./.pteroignore /.pteroignore
